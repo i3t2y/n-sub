@@ -23,6 +23,7 @@ import registerMiscRoutes from '@/restful/miscs';
 import registerNodeInfoRoutes from '@/restful/node-info';
 import registerParserRoutes from '@/restful/parser';
 import registerLogRoutes from '@/restful/logs';
+import registerAgeRoutes from '@/restful/age';
 
 import { produceArtifact } from '@/restful/sync';
 import { syncToGist } from '@/restful/artifacts';
@@ -50,6 +51,7 @@ registerNodeInfoRoutes($app);
 registerMiscRoutes($app);
 registerParserRoutes($app);
 registerLogRoutes($app);
+registerAgeRoutes($app);
 
 export default {
     // 定时同步
