@@ -193,16 +193,20 @@ jobs:
         run: npx wrangler deploy
 
       - name: Set Worker auth secret
-        if: steps.check.outputs.needed == 'true' && secrets.SUB_STORE_BACKEND_PATH != ''
+        if: steps.check.outputs.needed == 'true'
         working-directory: sub-store-workers
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           SUB_STORE_BACKEND_PATH: ${{ secrets.SUB_STORE_BACKEND_PATH }}
         run: |
-          echo "Writing SUB_STORE_FRONTEND_BACKEND_PATH to Worker secret..."
-          printf '%s' "${SUB_STORE_BACKEND_PATH}" | npx wrangler secret put SUB_STORE_FRONTEND_BACKEND_PATH
-          echo "Worker auth secret updated."
+          if [ -z "${SUB_STORE_BACKEND_PATH}" ]; then
+            echo "SUB_STORE_BACKEND_PATH not set, skipping Worker secret update"
+          else
+            echo "Writing SUB_STORE_FRONTEND_BACKEND_PATH to Worker secret..."
+            printf '%s' "${SUB_STORE_BACKEND_PATH}" | npx wrangler secret put SUB_STORE_FRONTEND_BACKEND_PATH
+            echo "Worker auth secret updated."
+          fi
 
       - name: Prepare Pages bundle
         if: steps.check.outputs.needed == 'true'
