@@ -2,8 +2,8 @@ name: Sync Upstream Sub-Store
 
 on:
   schedule:
-    # 每天 UTC 16:00 = 北京 00:00
-    - cron: '0 16 * * *'
+    # 每周一、周四 UTC 16:00（北京时间 00:00）各运行一次
+    - cron: '0 16 * * 1,4'
   workflow_dispatch:
     inputs:
       force:
